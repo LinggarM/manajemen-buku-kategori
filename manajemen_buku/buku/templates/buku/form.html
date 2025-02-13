@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+
+<div class="container mt-4 mb-4">
+    {% if mode == 'tambah' %}
+    <h2 class="mb-4">Tambah Buku</h2>
+    {% else %}
+    <h2 class="mb-4">Edit Buku</h2>
+    {% endif %}
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <div class="mb-3">
+            <label class="form-label">Judul Buku</label>
+            <input type="text" class="form-control {% if form.judul.errors %}is-invalid{% endif %}" name="judul"
+                value="{{ form.judul.value|default_if_none:'' }}">
+            {% for error in form.judul.errors %}
+            <div class="invalid-feedback">{{ error }}</div>
+            {% endfor %}
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Kategori</label>
+            <select class="form-control {% if form.kategori.errors %}is-invalid{% endif %}" name="kategori">
+                <option value="">Pilih Kategori</option>
+                {% for kategori in form.kategori.field.queryset %}
+                <option value="{{ kategori.id }}" {% if form.kategori.value == kategori.id %}selected{% endif %}>
+                    {{ kategori.nama }}
+                </option>
+                {% endfor %}
+            </select>
+            {% for error in form.kategori.errors %}
+            <div class="invalid-feedback">{{ error }}</div>
+            {% endfor %}
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Penulis</label>
+            <input type="text" class="form-control {% if form.penulis.errors %}is-invalid{% endif %}" name="penulis"
+                value="{{ form.penulis.value|default_if_none:'' }}">
+            {% for error in form.penulis.errors %}
+            <div class="invalid-feedback">{{ error }}</div>
+            {% endfor %}
+        </div>
+
+        {% if mode == 'tambah' %}
+        <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Simpan</button>
+        {% else %}
+        <button type="submit" class="btn btn-warning"><i class="fa fa-pencil"></i> Update</button>
+        {% endif %}
+        <a href="{% url 'buku' %}" class="btn btn-secondary"><i class="fa fa-arrow-left"></i> Kembali</a>
+    </form>
+</div>
+
+{% endblock %}

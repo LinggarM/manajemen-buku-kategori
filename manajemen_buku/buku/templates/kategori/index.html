@@ -1,0 +1,119 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+
+<div class="container mt-4 mb-4">
+    <h2 class="mb-4">Manajemen Kategori</h2>
+
+    <!-- Search Form -->
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-stretch align-items-md-center mb-3">
+        <a href="{% url 'tambah_kategori' %}" class="btn btn-primary mb-2 mb-md-0">
+            <i class="fa fa-plus"></i> Tambah Kategori
+        </a>
+    
+        <form method="GET" class="d-flex flex-wrap">
+            <input type="text" name="q" class="form-control me-2" 
+                style="max-width: 100%; width: 250px;" 
+                placeholder="Cari kategori..." 
+                value="{{ search_query }}">
+            <button type="submit" class="btn btn-success"><i class="fa fa-search"></i> Cari</button>
+        </form>
+    </div>    
+
+    <!-- Table -->
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped table-hover">
+            <thead class="table-dark">
+                <tr>
+                    <th>
+                        <a
+                            href="?sort=id&order={% if sort_by == 'id' and order == 'asc' %}desc{% else %}asc{% endif %}">
+                            No <i class="fa fa-sort"></i>
+                        </a>
+                    </th>
+                    <th>
+                        <a
+                            href="?sort=nama&order={% if sort_by == 'nama' and order == 'asc' %}desc{% else %}asc{% endif %}">
+                            Nama Kategori <i class="fa fa-sort"></i>
+                        </a>
+                    </th>
+                    <th>
+                        <a
+                            href="?sort=created_at&order={% if sort_by == 'created_at' and order == 'asc' %}desc{% else %}asc{% endif %}">
+                            Tanggal Dibuat <i class="fa fa-sort"></i>
+                        </a>
+                    </th>
+                    <th colspan="2" class="center">Aksi</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for kategori in page_obj %}
+                <tr>
+                    <td>{{ forloop.counter0|add:page_obj.start_index }}</td>
+                    <td>{{ kategori.nama }}</td>
+                    <td>{{ kategori.created_at|date:"Y-m-d" }}</td>
+                    <td class="center">
+                        <a href="{% url 'edit_kategori' kategori.id %}" class="btn btn-warning btn-sm">
+                            <i class="fa fa-pencil"></i> Edit
+                        </a>
+                    </td>
+                    <td class="center">
+                        <button class="btn btn-danger btn-sm" onclick="confirmDelete('{{ kategori.id }}', 'kategori')">
+                            <i class="fa fa-trash"></i> Delete
+                        </button>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="5" class="text-center">Tidak ada data ditemukan.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Pagination -->
+    <nav>
+        <ul class="pagination justify-content-end">
+            {% if page_obj.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?page=1">First</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+            </li>
+            {% else %}
+            <li class="page-item disabled">
+                <a class="page-link">First</a>
+            </li>
+            <li class="page-item disabled">
+                <a class="page-link">Previous</a>
+            </li>
+            {% endif %}
+
+            <li class="page-item active">
+                <a class="page-link">{{ page_obj.number }} / {{ page_obj.paginator.num_pages }}</a>
+            </li>
+
+            {% if page_obj.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+            </li>
+            {% else %}
+            <li class="page-item disabled">
+                <a class="page-link">Next</a>
+            </li>
+            <li class="page-item disabled">
+                <a class="page-link">Last</a>
+            </li>
+            {% endif %}
+        </ul>
+    </nav>
+</div>
+
+{% endblock %}

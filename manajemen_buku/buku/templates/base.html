@@ -1,0 +1,45 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Manajemen Buku & Kategori{% endblock %}</title>
+    <link rel="shortcut icon" type="image/png" href="https://static.djangoproject.com/img/favicon.6dbf28c0650e.ico" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Lora:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'buku/css/styles.css' %}">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+
+<body>
+
+    {% include 'header.html' %} <!-- Include Header -->
+
+    <main>
+        <!-- Display message if exists -->
+        {% if messages %}
+        <div class="container mt-3">
+            {% for message in messages %}
+            <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %} 
+            alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        {% block content %}{% endblock %} <!-- Page-specific content -->
+    </main>
+
+    {% include 'footer.html' %} <!-- Include Footer -->
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{% static 'buku/js/script.js' %}"></script>
+
+</body>
+
+</html>
