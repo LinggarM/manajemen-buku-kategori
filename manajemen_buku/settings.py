@@ -80,11 +80,11 @@ WSGI_APPLICATION = 'manajemen_buku.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-os.environ.setdefault("PGDATABASE", "manajemen-buku-kategori")
-os.environ.setdefault("PGUSER", "postgres")
-os.environ.setdefault("PGPASSWORD", "Ftf@2024")
-os.environ.setdefault("PGHOST", "localhost")
-os.environ.setdefault("PGPORT", "5432")
+# os.environ.setdefault("PGDATABASE", "manajemen-buku-kategori")
+# os.environ.setdefault("PGUSER", "postgres")
+# os.environ.setdefault("PGPASSWORD", "Ftf@2024")
+# os.environ.setdefault("PGHOST", "localhost")
+# os.environ.setdefault("PGPORT", "5432")
 
 DATABASES = {
     'default': {
